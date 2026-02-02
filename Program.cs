@@ -1,6 +1,9 @@
 using BlazorApp.Components;
+using FactoryApp.Data;
 
 var builder = WebApplication.CreateBuilder(args);
+// Регистрируем наш сервис, чтобы его можно было использовать на страницах
+builder.Services.AddScoped<ProductService>();
 
 // Add services to the container.
 builder.Services.AddRazorComponents()
