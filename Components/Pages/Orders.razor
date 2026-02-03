@@ -1,0 +1,67 @@
+@page "/orders"
+@using FactoryApp.Models
+@using FactoryApp.Data
+@inject OrderService Service
+<PageTitle>Заказы</PageTitle>
+<h1>📋 Заказы</h1>
+<p>Здесь отображаются все заказы из нашей базы данных.</p>
+
+@if (errorMessage != null)
+{
+    <div class="alert alert-danger">
+        <strong>Ошибка:</strong> @errorMessage
+    </div>
+}
+else if (orders == null)
+{
+    <p><em>Загрузка данных...</em></p>
+}
+else if (!orders.Any())
+{
+    <p><em>Нет заказов для отображения. Таблица пустая.</em></p>
+}
+else
+{
+    <table class="table table-striped table-hover">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Заказчик</th>
+                <th>Дата заказа</th>
+                <th>Сумма (руб)</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in orders)
+            {
+                <tr>
+                    <td>@item.Id</td>
+                    <td><strong>@item.CustomerName</strong></td>
+                    <td>@item.OrderDate</td>
+                    <td style="@(item.TotalAmount > 20000 ? "color: green; font-weight: bold;" : "")">
+                        @item.TotalAmount.ToString("N2")
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private List<Order> orders;
+    private string errorMessage;
+
+    protected override void OnInitialized()
+    {
+        try
+        {
+            orders = Service.GetOrders();
+        }
+        catch (Exception ex)
+        {
+            errorMessage = ex.Message;
+            // Для отладки
+            Console.WriteLine($"Ошибка при загрузке заказов: {ex.Message}");
+        }
+    }
+}

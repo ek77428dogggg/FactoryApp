@@ -1,11 +1,10 @@
-namespace FactoryApp.Models // Убедитесь, что namespace совпадает с названием вашего проекта
+namespace FactoryApp.Models
 {
     public class Order
     {
         public int Id { get; set; }
-        public string CustomerName { get; set; }
-        public decimal OrderDate { get; set; }
-        public int TotalAmount { get; set; }
-        
+        public string CustomerName { get; set; } = string.Empty;
+        public string OrderDate { get; set; } = string.Empty;
+        public decimal TotalAmount { get; set; }
     }
 }
